@@ -29,8 +29,7 @@ Submit Registration Form
 
 Verify Message Of Registration Success
     [Documentation]    Verifica se o registro foi bem-sucedido, aguardando a mensagem de sucesso e a navegação para a página de login.
-    Wait For Elements State    ${REGISTER_SUCCESS_MESSAGE}    visible    timeout=10s
-    Wait For Navigation    url=${BASE_URL}/login    timeout=10s
+    Wait For Elements State    ${REGISTER_SUCCESS_MESSAGE}    visible    timeout=${DEFAULT_TIMEOUT}
 
 Verify Redirect To Login Page
-    Wait For Navigation    url=${BASE_URL}/login    timeout=10s
+    Wait For Navigation    url=${BASE_URL}/login    timeout=${DEFAULT_TIMEOUT}

@@ -20,6 +20,8 @@ Quando cadastrar um novo usuário
     ...    password=${user_data.password}
     Submit Registration Form
 
-Então o registro deve ser bem-sucedido e a URL deve conter /login
+Então o registro deve ser bem-sucedido
     Verify Message Of Registration Success
+
+E deve ser redirecionado para a página de login
     Verify Redirect To Login Page
