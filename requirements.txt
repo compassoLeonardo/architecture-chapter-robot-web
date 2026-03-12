@@ -1,0 +1,7 @@
+robotframework
+robotframework-browser
+robotframework-pabot
+robotframework-requests
+robotframework-jsonlibrary
+robotframework-faker
+dotenv
