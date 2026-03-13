@@ -54,3 +54,8 @@ CT_03: EXEMPLO COM GHERKIN - Deve registrar um novo usuário usando Gherkin
     Quando cadastrar um novo usuário
     Então deverá ser exibido a mensagem de cadastro ser bem-sucedido 
     E deverá ser redirecionado para a página de login
+
+CT_04: Busca de parâmetros no AWS Parameter
+    ${parameter_name}=    Set Variable    example_secure_string
+    ${parameter_value}=    Get SSM Parameter    ${parameter_name}
+    Log    O valor do parâmetro '${parameter_name}' é: ${parameter_value}    level=DEBUG

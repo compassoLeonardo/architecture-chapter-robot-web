@@ -9,11 +9,12 @@ Library    dotenv
 Library    FakerLibrary
 
 Library    ${EXECDIR}/resources/libraries/temp_email.py    WITH NAME    TempEmailLib
+Library    ${EXECDIR}/resources/libraries/aws_parameters.py    WITH NAME    AwsParametersLib
 Resource   ${EXECDIR}/config/variables.resource
 
 *** Keywords ***
 Suite Setup Load Environment
-    Load Dotenv    dotenv_path=${EXECDIR}/.env
+    dotenv.Load Dotenv    dotenv_path=${EXECDIR}/.env
     Log    Loaded Environment: ${ENVIRONMENT}    level=DEBUG
     Set Base URL For Environment
 
