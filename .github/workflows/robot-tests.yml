@@ -60,7 +60,9 @@ jobs:
       - name: Set image tag
         id: image
         run: |
-          echo "tag=ghcr.io/${{ github.repository_owner }}/robot-web-ci:sha-${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          OWNER_LOWER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          echo "tag=ghcr.io/${OWNER_LOWER}/robot-web-ci:sha-${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          echo "latest_tag=ghcr.io/${OWNER_LOWER}/robot-web-ci:latest" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -80,7 +82,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.image.outputs.tag }}
-            ghcr.io/${{ github.repository_owner }}/robot-web-ci:latest
+            ${{ steps.image.outputs.latest_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
