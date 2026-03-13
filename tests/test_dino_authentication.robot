@@ -52,5 +52,5 @@ CT_03: EXEMPLO COM GHERKIN - Deve registrar um novo usuário usando Gherkin
     Dado que possuo dados de usuário aleatórios para cadastro
     E que esteja na página de cadastro
     Quando cadastrar um novo usuário
-    Então o registro deve ser bem-sucedido 
-    E deve ser redirecionado para a página de login
+    Então deverá ser exibido a mensagem de cadastro ser bem-sucedido 
+    E deverá ser redirecionado para a página de login
