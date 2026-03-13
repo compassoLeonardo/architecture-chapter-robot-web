@@ -14,7 +14,9 @@ Open Browser
 Save Screenshot
     [Documentation]    Salva um screenshot da página atual. O nome do arquivo inclui o nome do teste e um timestamp.
     ${time_stamp}=    Get Current Date    result_format=%d%m%Y_%H%M%S
-    ${file_name}=    Catenate    SEPARATOR=_    screenshot    ${TEST NAME}    ${time_stamp}
+    ${test_name_parts}=    Split String    ${TEST NAME}    :
+    ${clean_test_name}=    Strip String    ${test_name_parts}[1]
+    ${file_name}=    Catenate    SEPARATOR=_    screenshot    ${clean_test_name}    ${time_stamp}
     Take Screenshot    ${file_name}
 
 Wait Until URL Contains
