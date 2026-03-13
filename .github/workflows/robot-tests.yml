@@ -41,10 +41,9 @@ on:
         required: false
         default: false
         type: boolean
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read
