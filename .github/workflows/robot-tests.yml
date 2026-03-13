@@ -1,0 +1,112 @@
+name: Robot Framework CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: Browser to run tests on
+        required: true
+        default: chromium
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+      environment:
+        description: Target environment
+        required: true
+        default: PROD
+        type: choice
+        options:
+          - DEV
+          - HML
+          - PROD
+      tag:
+        description: Robot tag to include (optional)
+        required: false
+        default: ""
+        type: string
+      test_file:
+        description: Robot test file path
+        required: true
+        default: tests/test_dino_authentication.robot
+        type: string
+      test_case:
+        description: Robot test case name/pattern (optional)
+        required: false
+        default: ""
+        type: string
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  robot-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      BROWSER: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.browser || 'chromium' }}
+      HEADLESS: "True"
+      ENVIRONMENT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || 'PROD' }}
+
+    steps:
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::219850556934:role/github.to.aws.oicd
+          aws-region: us-east-1
+        
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright browsers for Robot Framework Browser
+        run: rfbrowser init
+
+      - name: Run Robot tests
+        run: |
+          ROBOT_ARGS=("-d" "output")
+
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            ROBOT_ARGS+=("--include" "${{ github.event.inputs.tag }}")
+          fi
+
+          if [ -n "${{ github.event.inputs.test_case }}" ]; then
+            ROBOT_ARGS+=("--test" "${{ github.event.inputs.test_case }}")
+          fi
+
+          TEST_FILE="${{ github.event.inputs.test_file }}"
+          if [ -z "$TEST_FILE" ]; then
+            TEST_FILE="tests/test_dino_authentication.robot"
+          fi
+
+          ROBOT_ARGS+=("$TEST_FILE")
+
+          robot "${ROBOT_ARGS[@]}"
+
+      - name: Upload Robot Framework report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-output
+          path: output/
