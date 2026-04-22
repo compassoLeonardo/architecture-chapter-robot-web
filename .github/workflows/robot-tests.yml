@@ -44,6 +44,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  pages: write
 
 jobs:
   robot-tests:
@@ -110,3 +111,21 @@ jobs:
         with:
           name: robot-output
           path: output/
+
+      - name: Upload GitHub Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output/
+
+  deploy-pages:
+    needs: robot-tests
+    if: always()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
