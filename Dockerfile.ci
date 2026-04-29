@@ -1,0 +1,10 @@
+FROM marketsquare/robotframework-browser:18.3.0
+
+WORKDIR /workspace
+
+COPY requirements.txt /tmp/requirements.txt
+
+RUN if command -v python3 >/dev/null 2>&1; then PY=python3; else PY=python; fi \
+    && "$PY" -m pip install --upgrade pip \
+    && "$PY" -m pip install --no-cache-dir -r /tmp/requirements.txt \
+    && "$PY" -m Browser.entry init

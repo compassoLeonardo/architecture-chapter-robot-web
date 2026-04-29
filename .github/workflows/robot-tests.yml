@@ -36,10 +36,14 @@ on:
         required: false
         default: ""
         type: string
-  push:
+      debug_log:
+        description: Enable Robot log level DEBUG (-L DEBUG)
+        required: false
+        default: false
+        type: boolean
+  pull_request:
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read
@@ -87,6 +91,10 @@ jobs:
       - name: Run Robot tests
         run: |
           ROBOT_ARGS=("-d" "output")
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.debug_log }}" = "true" ]; then
+            ROBOT_ARGS+=("-L" "DEBUG")
+          fi
 
           if [ -n "${{ github.event.inputs.tag }}" ]; then
             ROBOT_ARGS+=("--include" "${{ github.event.inputs.tag }}")

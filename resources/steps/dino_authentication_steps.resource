@@ -22,6 +22,8 @@ Quando cadastrar um novo usuário
 
 Então deverá ser exibido a mensagem de cadastro ser bem-sucedido 
     Verify Message Of Registration Success
+    Save Screenshot
 
 E deverá ser redirecionado para a página de login
     Verify Redirect To Login Page
+    Save Screenshot

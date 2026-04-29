@@ -43,7 +43,9 @@ CT_02: EXEMPLO COM ENCAPSULAMENTO - Deve registrar um novo usuário usando palav
     ...    password=${user_data.password}
     Submit Registration Form
     Verify Message Of Registration Success
+    Save Screenshot
     Verify Redirect To Login Page
+    Save Screenshot
 
     #* Este exemplo é uma melhoria significativa em relação ao primeiro, pois encapsula a lógica de geração de dados e 
     #* interação com a página em palavras-chave reutilizáveis. Isso torna os testes mais limpos, fáceis de ler e manter.
