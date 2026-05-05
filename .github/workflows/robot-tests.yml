@@ -39,12 +39,15 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read
   id-token: write
   pages: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   robot-tests:
@@ -104,6 +107,11 @@ jobs:
           ROBOT_ARGS+=("$TEST_FILE")
 
           robot "${ROBOT_ARGS[@]}"
+
+      - name: Prepare report for GitHub Pages
+        if: always()
+        run: |
+          cp output/report.html output/index.html
 
       - name: Upload Robot Framework report
         if: always()
