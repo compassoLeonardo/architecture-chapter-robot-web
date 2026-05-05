@@ -10,6 +10,7 @@ Test Teardown    Close Browser
 *** Test Cases ***
 
 CT_01: MAL EXEMPLO - Deve registrar um novo usuário preenchendo o formulário diretamente no teste
+    [Tags]    Sem Encapsulamento
     # Gerar dados de usuário aleatórios
     ${random_first_name}=    FakerLibrary.First Name
     ${random_last_name}=    FakerLibrary.Last Name
@@ -33,6 +34,7 @@ CT_01: MAL EXEMPLO - Deve registrar um novo usuário preenchendo o formulário d
     #! Isso leva à duplicação de código, tornando a manutenção difícil e aumentando o risco de erros.
 
 CT_02: EXEMPLO COM ENCAPSULAMENTO - Deve registrar um novo usuário usando palavras-chave reutilizáveis
+    [Tags]    Encapsulamento
     ${user_data}=    Generate Random User Data
     
     Go To Registration Page
@@ -49,6 +51,7 @@ CT_02: EXEMPLO COM ENCAPSULAMENTO - Deve registrar um novo usuário usando palav
     #* interação com a página em palavras-chave reutilizáveis. Isso torna os testes mais limpos, fáceis de ler e manter.
 
 CT_03: EXEMPLO COM GHERKIN - Deve registrar um novo usuário usando Gherkin
+    [Tags]    Gherkin
     Dado que possuo dados de usuário aleatórios para cadastro
     E que esteja na página de cadastro
     Quando cadastrar um novo usuário
